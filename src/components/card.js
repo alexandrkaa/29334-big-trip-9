@@ -154,4 +154,4 @@ export const createCardComponent = () => {
       </ul>
     </li>
   `;
-}
+};
