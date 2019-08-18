@@ -6,12 +6,13 @@
   "scripts": {
     "eslint": "eslint src/**/*.js",
     "test": "npm run eslint",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --open --mode development",
     "build": "webpack"
   },
   "devDependencies": {
     "eslint": "6.1.0",
     "eslint-config-htmlacademy": "0.5.2",
+    "stylelint-config-htmlacademy": "^0.1.4",
     "webpack": "4.39.1",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.8.0"

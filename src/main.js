@@ -1,14 +1,16 @@
-import {createMenuComponent} from './components/menu.js';
-import {createFilterComponent} from './components/filter.js';
-// import {createCardComponent} from './components/card.js';
+import {createMenuComponent} from './components/menu';
+import {createFilterComponent} from './components/filter';
 
 import {createEventsComponent} from './components/events';
 import {createEventComponent} from './components/event';
 import {createRouteComponent} from './components/route';
 import {getComponent, renderComponent} from './components/render';
 
-import {createCardEditComponent} from './components/card-edit.js';
-import {createTripInfoComponent} from './components/trip-info.js';
+import {createEventEditComponent} from './components/event-edit';
+import {createTripInfoComponent} from './components/trip-info';
+
+// data
+import {oneRoute} from './data/route';
 
 const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
 const tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
@@ -33,5 +35,7 @@ const renderEventsList = () => {
 renderComponent(tripInfoBlock, createTripInfoComponent(), `afterbegin`);
 renderComponent(tripControlsBlock, createMenuComponent(), `beforeend`);
 renderComponent(tripControlsBlock, createFilterComponent(), `beforeend`);
-renderComponent(tripEventsBlock, createCardEditComponent(), `beforeend`);
+renderComponent(tripEventsBlock, createEventEditComponent(), `beforeend`);
 tripEventsBlock.appendChild(renderEventsList());
+
+console.log(oneRoute());
