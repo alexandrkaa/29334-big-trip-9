@@ -21,7 +21,6 @@ export const createRouteComponent = ({startTime, duration, price, destanation, o
   const endTime = new Date(startTime + duration);
   startTime = new Date(startTime);
   duration = msToHoursMins(duration);
-  console.log(offers);
   return `
     <li class="trip-events__item">
       <div class="event">
@@ -32,7 +31,7 @@ export const createRouteComponent = ({startTime, duration, price, destanation, o
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${startTime.toISOString()}">${(startTime.getHours() < 10 ? `0` + startTime.getHours() : startTime.getHours())}:${(startTime.getMinutes()< 10 ? `0` + startTime.getMinutes() : startTime.getMinutes())}</time>
+            <time class="event__start-time" datetime="${startTime.toISOString()}">${(startTime.getHours() < 10 ? `0` + startTime.getHours() : startTime.getHours())}:${(startTime.getMinutes() < 10 ? `0` + startTime.getMinutes() : startTime.getMinutes())}</time>
             &mdash;
             <time class="event__end-time" datetime="${endTime.toISOString()}">${(endTime.getHours() < 10 ? `0` + endTime.getHours() : endTime.getHours())}:${(endTime.getMinutes() < 10 ? `0` + endTime.getMinutes() : endTime.getMinutes())}</time>
           </p>
