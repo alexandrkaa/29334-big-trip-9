@@ -11,18 +11,24 @@ import {createTripInfoComponent} from './components/trip-info';
 
 // data
 import {oneRoute} from './data/route';
+// console.log(oneRoute());
 
 const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
 const tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
 const tripEventsBlock = document.querySelector(`.trip-events`);
+const totalPriceBlock = document.querySelector(`.trip-info__cost`);
 const eventsList = getComponent(createEventsComponent());
-
+const routePoints = [];
+let totalPrice = 0;
 const renderEventsList = () => {
   const days = document.createDocumentFragment();
   for (let i = 0; i < 3; i++) {
     let routes = document.createDocumentFragment();
     for (let j = 0; j < 5; j++) {
-      routes.appendChild(getComponent(createRouteComponent()));
+      const routePoint = oneRoute();
+      routePoints.push(routePoint);
+      totalPrice += routePoint.price;
+      routes.appendChild(getComponent(createRouteComponent(routePoint)));
     }
     let day = getComponent(createEventComponent());
     day.querySelector(`.trip-events__list`).appendChild(routes);
@@ -31,11 +37,9 @@ const renderEventsList = () => {
   eventsList.appendChild(days);
   return eventsList;
 };
-
 renderComponent(tripInfoBlock, createTripInfoComponent(), `afterbegin`);
 renderComponent(tripControlsBlock, createMenuComponent(), `beforeend`);
 renderComponent(tripControlsBlock, createFilterComponent(), `beforeend`);
 renderComponent(tripEventsBlock, createEventEditComponent(), `beforeend`);
 tripEventsBlock.appendChild(renderEventsList());
-
-console.log(oneRoute());
+totalPriceBlock.textContent = `Total: € ${totalPrice}`;
