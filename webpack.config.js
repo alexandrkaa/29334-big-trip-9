@@ -8,6 +8,7 @@ module.exports = {
     path: path.join(__dirname, `public`)
   },
   devtool: `source-map`, // Подключаем sourcemaps
+  watch: true,
   devServer: {
     contentBase: path.join(__dirname, `public`), // Где искать сборку
     publicPath: `http: //localhost:8080/`, // Веб адрес сборки
