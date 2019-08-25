@@ -1,26 +1,11 @@
-// import {createMenuComponent} from './components/menu';
-import {Menu} from './components/menu';
-// import {createFilterComponent} from './components/filter';
-import {Filter} from './components/filter';
-
-// import {createEventsComponent} from './components/events';
-import {Days} from './components/days';
-import {Day} from './components/day';
-// import {createRouteComponent} from './components/route';
-import {Route} from './components/route';
-import {getComponent, renderComponent, Position, render} from './components/utils';
-
-// import {createEventEditComponent} from './components/event-edit';
-import {RouteEdit} from './components/route-edit';
-// import {createTripInfoComponent} from './components/trip-info';
-import {TripInfo} from './components/trip-info';
+import {Menu, Filter, Days, Day, Route, TripInfo, RouteEdit} from './components/componetns';
+import {Position, render} from './components/utils';
 
 // data
 import {oneRoute} from './data/route';
 import {routePlaces} from './data/places';
-const day = new Day();
 const days = new Days();
-const routeEdit = new RouteEdit(routePlaces, oneRoute());
+// const routeEdit = new RouteEdit(routePlaces, oneRoute());
 const menu = new Menu();
 const filter = new Filter();
 const tripInfo = new TripInfo(routePlaces);
@@ -35,15 +20,25 @@ let totalPrice = 0;
 const renderEventsList = () => {
   const daysFragment = document.createDocumentFragment();
   for (let i = 0; i < 3; i++) {
-    let routes = document.createDocumentFragment();
+    const day = new Day();
+    const routes = document.createDocumentFragment();
     for (let j = 0; j < 5; j++) {
       const routePoint = oneRoute();
       const route = new Route(routePoint);
+      const routeEdit = new RouteEdit(routePlaces, routePoint);
+      const routeElement = route.getElement();
+      const routeEditElement = routeEdit.getElement();
+      routeEditElement.querySelector(`.event--edit`).addEventListener(`submit`, () => {
+        routeEditElement.parentNode.replaceChild(routeElement, routeEditElement);
+      });
+      routeElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+        routeElement.parentNode.replaceChild(routeEditElement, routeElement);
+      });
       routePoints.push(routePoint);
       totalPrice += routePoint.price;
-      render(routes, route.getElement(),Position.BEFOREEND);
+      render(routes, routeElement, Position.BEFOREEND);
     }
-    let dayRoutes = getComponent(day.getTemplate());
+    let dayRoutes = day.getElement();
     render(dayRoutes.querySelector(`.trip-events__list`), routes, Position.BEFOREEND);
     render(daysFragment, dayRoutes, Position.BEFOREEND);
   }
@@ -53,6 +48,6 @@ const renderEventsList = () => {
 render(tripInfoBlock, tripInfo.getElement(), Position.AFTERBEGIN);
 render(tripControlsBlock, menu.getElement(), Position.BEFOREEND);
 render(tripControlsBlock, filter.getElement(), Position.BEFOREEND);
-render(tripEventsBlock, routeEdit.getElement(), Position.BEFOREEND);
+// render(tripEventsBlock, routeEdit.getElement(), Position.BEFOREEND);
 tripEventsBlock.appendChild(renderEventsList());
 totalPriceBlock.textContent = `Total: € ${totalPrice}`;
