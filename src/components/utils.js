@@ -51,3 +51,17 @@ export const unrender = (element) => {
     element.remove();
   }
 };
+
+const ESC_KEYCODE = 27;
+
+export const onEscPress = function (action, evt) {
+  // console.log(evt);
+  // console.log(action);
+  // console.log(evt.keyCode);
+  if (evt.keyCode === ESC_KEYCODE) {
+    evt.preventDefault();
+    if (action !== undefined && typeof action === `function`) {
+      action(evt);
+    }
+  }
+};

@@ -1,5 +1,5 @@
 import {Menu, Filter, Days, Day, Route, TripInfo, RouteEdit} from './components/componetns';
-import {Position, render} from './components/utils';
+import {Position, render, onEscPress} from './components/utils';
 
 // data
 import {oneRoute} from './data/route';
@@ -17,6 +17,12 @@ const totalPriceBlock = document.querySelector(`.trip-info__cost`);
 const daysList = days.getElement();
 const routePoints = [];
 let totalPrice = 0;
+
+const replaceRoute = (oldView, newView, evt) => {
+  evt.preventDefault();
+  oldView.parentNode.replaceChild(newView, oldView);
+};
+
 const renderEventsList = () => {
   const daysFragment = document.createDocumentFragment();
   for (let i = 0; i < 3; i++) {
@@ -28,13 +34,10 @@ const renderEventsList = () => {
       const routeEdit = new RouteEdit(routePlaces, routePoint);
       const routeElement = route.getElement();
       const routeEditElement = routeEdit.getElement();
-      routeEditElement.querySelector(`.event--edit`).addEventListener(`submit`, () => {
-        routeEditElement.parentNode.replaceChild(routeElement, routeEditElement);
-      });
-      routeElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
-        routeElement.parentNode.replaceChild(routeEditElement, routeElement);
-      });
-      routePoints.push(routePoint);
+      routeEditElement.querySelector(`.event--edit`).addEventListener(`submit`, replaceRoute.bind(null, routeEditElement, routeElement));
+      routeEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, onEscPress.bind(null, replaceRoute.bind(null, routeEditElement, routeElement)));
+      routeElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, replaceRoute.bind(null, routeElement, routeEditElement));
+      routePoints.push({routePoint, routeElement, routeEditElement});
       totalPrice += routePoint.price;
       render(routes, routeElement, Position.BEFOREEND);
     }
@@ -51,3 +54,4 @@ render(tripControlsBlock, filter.getElement(), Position.BEFOREEND);
 // render(tripEventsBlock, routeEdit.getElement(), Position.BEFOREEND);
 tripEventsBlock.appendChild(renderEventsList());
 totalPriceBlock.textContent = `Total: € ${totalPrice}`;
+// document.addEventListener(`keydown`, onEscPress.bind(null, esc));
