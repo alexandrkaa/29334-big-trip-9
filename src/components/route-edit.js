@@ -1,4 +1,5 @@
 import {formatDate} from '../components/utils';
+import {createElement} from './utils';
 
 export class RouteEdit {
   constructor(routePlaces, {startTime, duration, price, destanation, offers, icon, photos, description, favorite, routeAction, routePlace}) {
@@ -14,6 +15,15 @@ export class RouteEdit {
     this._routeAction = routeAction;
     this._routePlaces = routePlaces;
     this._routePlace = routePlace;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
   }
 
   getTemplate() {

@@ -41,7 +41,7 @@ const renderEventsList = () => {
       const route = new Route(routePoint);
       routePoints.push(routePoint);
       totalPrice += routePoint.price;
-      routes.appendChild(getComponent(route.getTemplate()));
+      render(routes, route.getElement(),Position.BEFOREEND);
     }
     let dayRoutes = getComponent(day.getTemplate());
     render(dayRoutes.querySelector(`.trip-events__list`), routes, Position.BEFOREEND);
@@ -50,14 +50,9 @@ const renderEventsList = () => {
   render(daysList, daysFragment, Position.BEFOREEND);
   return daysList;
 };
-// renderComponent(tripInfoBlock, createTripInfoComponent(), Position.AFTERBEGIN);
 render(tripInfoBlock, tripInfo.getElement(), Position.AFTERBEGIN);
-// renderComponent(tripControlsBlock, createMenuComponent(), `beforeend`);
-// renderComponent(tripControlsBlock, menu.getElement(), `beforeend`);
 render(tripControlsBlock, menu.getElement(), Position.BEFOREEND);
-// renderComponent(tripControlsBlock, createFilterComponent(), `beforeend`);
-renderComponent(tripControlsBlock, filter.getTemplate(), Position.BEFOREEND);
-// renderComponent(tripEventsBlock, createEventEditComponent(), `beforeend`);
-renderComponent(tripEventsBlock, routeEdit.getTemplate(), Position.BEFOREEND);
+render(tripControlsBlock, filter.getElement(), Position.BEFOREEND);
+render(tripEventsBlock, routeEdit.getElement(), Position.BEFOREEND);
 tripEventsBlock.appendChild(renderEventsList());
 totalPriceBlock.textContent = `Total: € ${totalPrice}`;
