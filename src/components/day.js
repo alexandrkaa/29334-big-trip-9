@@ -1,5 +1,3 @@
-// remove this file
-
 // export const createEventComponent = () => {
 //   return `
 //       <li class="trip-days__item  day">
@@ -13,9 +11,23 @@
 //     `.trim();
 // };
 
-export class Event {
+import {createElement} from './utils';
+
+export class Day {
   constructor() {
-    this._template = `
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  getTemplate() {
+    return `
       <li class="trip-days__item  day">
         <div class="day__info">
           <span class="day__counter">1</span>
@@ -25,8 +37,5 @@ export class Event {
         </ul>
       </li>
     `.trim();
-  }
-  getTemplate() {
-    return this._template;
   }
 }
