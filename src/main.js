@@ -37,6 +37,7 @@ const renderEventsList = () => {
   eventsList.appendChild(days);
   return eventsList;
 };
+
 renderComponent(tripInfoBlock, createTripInfoComponent(), `afterbegin`);
 renderComponent(tripControlsBlock, createMenuComponent(), `beforeend`);
 renderComponent(tripControlsBlock, createFilterComponent(), `beforeend`);
