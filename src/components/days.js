@@ -1,6 +1,13 @@
+export const createEventsComponent = () => {
+  return `
+    <ul class="trip-days">
+    </ul>
+    `.trim();
+};
+
 import {createElement} from './utils';
 
-export class Menu {
+export class Days {
   constructor() {
     this._element = null;
   }
@@ -15,10 +22,8 @@ export class Menu {
 
   getTemplate() {
     return `
-      <nav class="trip-controls__trip-tabs  trip-tabs">
-        <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
-        <a class="trip-tabs__btn" href="#">Stats</a>
-      </nav>
+      <ul class="trip-days">
+      </ul>
     `.trim();
   }
 }

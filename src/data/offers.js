@@ -9,17 +9,17 @@ export const routeOffers = [{
   price: 150,
   selected: Boolean(Math.round(Math.random()))
 }, {
-  id: `Add-meal`,
+  id: `add-meal`,
   name: `Add meal`,
   price: 2,
   selected: Boolean(Math.round(Math.random()))
 }, {
-  id: `Choose-seats`,
+  id: `choose-seats`,
   name: `Choose seats`,
   price: 9,
   selected: Boolean(Math.round(Math.random()))
 }, {
-  id: `Travel-by-train`,
+  id: `travel-by-train`,
   name: `Travel by train`,
   price: 40,
   selected: Boolean(Math.round(Math.random()))
