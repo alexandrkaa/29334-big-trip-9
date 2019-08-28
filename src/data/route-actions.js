@@ -1,4 +1,3 @@
-// remove this file
 export const routeActions = new Set([
   {
     id: `taxi`,
