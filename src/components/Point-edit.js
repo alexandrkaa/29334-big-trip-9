@@ -1,8 +1,9 @@
-import {formatDate} from '../components/utils';
-import {createElement} from './utils';
+import {formatDate} from './utils';
+import {AbstractComponent} from './AbstractComponent';
 
-export class RouteEdit {
-  constructor(routePlaces, {startTime, duration, price, destanation, offers, icon, photos, description, favorite, routeAction, routePlace}) {
+export class PointEdit extends AbstractComponent {
+  constructor(routePlaces, {startTime, duration, price, destanation, offers, icon, photos, description, favorite, routeAction, routePlace}, props) {
+    super(props);
     this._startTime = startTime;
     this._duration = duration;
     this._price = price;
@@ -16,14 +17,6 @@ export class RouteEdit {
     this._routePlaces = routePlaces;
     this._routePlace = routePlace;
     this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 
   getTemplate() {

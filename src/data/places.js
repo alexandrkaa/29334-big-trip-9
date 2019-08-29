@@ -1,4 +1,4 @@
-export const routePlaces = [
+export const pointPlaces = [
   {name: `Amsterdam`, type: `city`},
   {name: `Geneva`, type: `city`},
   {name: `Chamonix`, type: `city`},
