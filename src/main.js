@@ -1,65 +1,81 @@
-import {Menu, Filter, Days, Day, Route, TripInfo, RouteEdit} from './components/componetns';
-import {Position, render, onEscPress} from './components/utils';
+// const context = require.context(`./components/`, true, /\/.*\.js$/);
+// context.keys().forEach((it) => {
+//   console.log(context.resolve(it));
+// });
 
-// data
-import {oneRoute} from './data/route';
-import {routePlaces} from './data/places';
-const days = new Days();
-// const routeEdit = new RouteEdit(routePlaces, oneRoute());
-const menu = new Menu();
-const filter = new Filter();
-const tripInfo = new TripInfo(routePlaces);
+// import {Menu, Filter, Days, Day, Point, TripInfo, PointEdit} from './components';
+// import {Position, render, onEscPress} from './components/utils';
 
-const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
-const tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
-const tripEventsBlock = document.querySelector(`.trip-events`);
-const totalPriceBlock = document.querySelector(`.trip-info__cost`);
-const daysList = days.getElement();
-const routePoints = [];
-let totalPrice = 0;
+// // data
+// import {onePoint} from './data/one-point';
+// import {pointPlaces} from './data/places';
+// const DAYS_NUM = 3;
+// const POINTS_NUM = 5;
+// const days = new Days();
+// const menu = new Menu();
+// const filter = new Filter();
+// const tripInfo = new TripInfo(pointPlaces);
 
-const replaceRoute = (oldView, newView, evt) => {
-  evt.preventDefault();
-  oldView.parentNode.replaceChild(newView, oldView);
-};
+// const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
+// const tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
+// const tripEventsBlock = document.querySelector(`.trip-events`);
+// const totalPriceBlock = document.querySelector(`.trip-info__cost`);
+// const daysList = days.node;
+// const points = [];
+// let totalPrice = 0;
+// const currentlyOpened = [];
 
-const renderEventsList = () => {
-  const daysFragment = document.createDocumentFragment();
-  for (let i = 0; i < 3; i++) {
-    const day = new Day();
-    const routes = document.createDocumentFragment();
-    for (let j = 0; j < 5; j++) {
-      const routePoint = oneRoute();
-      const route = new Route(routePoint);
-      const routeEdit = new RouteEdit(routePlaces, routePoint);
-      const routeElement = route.getElement();
-      const routeEditElement = routeEdit.getElement();
-      routeEditElement.querySelector(`.event--edit`).addEventListener(`submit`, replaceRoute.bind(null, routeEditElement, routeElement));
-      routeEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, onEscPress.bind(null, replaceRoute.bind(null, routeEditElement, routeElement)));
-      routeElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, replaceRoute.bind(null, routeElement, routeEditElement));
-      routePoints.push({routePoint, routeElement, routeEditElement});
-      totalPrice += routePoint.price;
-      render(routes, routeElement, Position.BEFOREEND);
-    }
-    let dayRoutes = day.getElement();
-    render(dayRoutes.querySelector(`.trip-events__list`), routes, Position.BEFOREEND);
-    render(daysFragment, dayRoutes, Position.BEFOREEND);
-  }
-  render(daysList, daysFragment, Position.BEFOREEND);
-  return daysList;
-};
-<<<<<<< HEAD
+// const replacePoints = (views, evt) => {
+//   evt.preventDefault();
+//   views.forEach((view) => {
+//     const {oldView, newView} = view;
+//     oldView.parentNode.replaceChild(newView, oldView);
+//     if (evt.type === `click`) {
+//       currentlyOpened.push({oldView: newView, newView: oldView});
+//     }
+//     if (evt.type === `submit`) {
+//       currentlyOpened.splice(currentlyOpened.findIndex((it) => {
+//         return it.oldView === newView;
+//       }), 1);
+//     }
+//   });
+//   if (evt.type === `keydown`) {
+//     currentlyOpened.splice(0, currentlyOpened.length);
+//   }
+// };
 
-renderComponent(tripInfoBlock, createTripInfoComponent(), `afterbegin`);
-renderComponent(tripControlsBlock, createMenuComponent(), `beforeend`);
-renderComponent(tripControlsBlock, createFilterComponent(), `beforeend`);
-renderComponent(tripEventsBlock, createEventEditComponent(), `beforeend`);
-=======
-render(tripInfoBlock, tripInfo.getElement(), Position.AFTERBEGIN);
-render(tripControlsBlock, menu.getElement(), Position.BEFOREEND);
-render(tripControlsBlock, filter.getElement(), Position.BEFOREEND);
-// render(tripEventsBlock, routeEdit.getElement(), Position.BEFOREEND);
->>>>>>> module4-task1
-tripEventsBlock.appendChild(renderEventsList());
-totalPriceBlock.textContent = `Total: € ${totalPrice}`;
-// document.addEventListener(`keydown`, onEscPress.bind(null, esc));
+// const renderEventsList = () => {
+//   const daysFragment = document.createDocumentFragment();
+//   for (let i = 0; i < DAYS_NUM; i++) {
+//     const day = new Day();
+//     const routes = document.createDocumentFragment();
+//     for (let j = 0; j < POINTS_NUM; j++) {
+//       const pointData = onePoint();
+//       const point = new Point(pointData);
+//       const pointEdit = new PointEdit(pointPlaces, pointData);
+//       const pointElement = point.node;
+//       const pointEditElement = pointEdit.node;
+//       pointEditElement.querySelector(`.event--edit`).addEventListener(`submit`, replacePoints.bind(null, [{oldView: pointEditElement, newView: pointElement}]));
+//       pointEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, onEscPress.bind(null, replacePoints.bind(null, [{oldView: pointEditElement, newView: pointElement}])));
+//       pointElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, replacePoints.bind(null, [{oldView: pointElement, newView: pointEditElement}]));
+//       points.push({pointData, pointElement, pointEditElement});
+//       totalPrice += pointData.price;
+//       render(routes, pointElement, Position.BEFOREEND);
+//     }
+//     let dayRoutes = day.node;
+//     render(dayRoutes.querySelector(`.trip-events__list`), routes, Position.BEFOREEND);
+//     render(daysFragment, dayRoutes, Position.BEFOREEND);
+//   }
+//   render(daysList, daysFragment, Position.BEFOREEND);
+//   return daysList;
+// };
+// render(tripInfoBlock, tripInfo.node, Position.AFTERBEGIN);
+// render(tripControlsBlock, menu.node, Position.BEFOREEND);
+// render(tripControlsBlock, filter.node, Position.BEFOREEND);
+// tripEventsBlock.appendChild(renderEventsList());
+// totalPriceBlock.textContent = `Total: € ${totalPrice}`;
+// document.addEventListener(`keydown`, onEscPress.bind(null, replacePoints.bind(null, currentlyOpened)));
+
+import {TripController} from './controllers/Trip-controller';
+const tripController = new TripController();
+tripController.init();

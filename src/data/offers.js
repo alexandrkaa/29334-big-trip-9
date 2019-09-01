@@ -1,4 +1,4 @@
-export const routeOffers = [{
+export const pointOffers = [{
   id: `add-luggage`,
   name: `Add luggage`,
   price: 10,

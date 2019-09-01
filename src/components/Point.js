@@ -1,9 +1,10 @@
 // import {oneRoute} from '../data/route';
-import {msToHoursMins} from '../components/utils';
-import {createElement} from './utils';
+import {msToHoursMins} from './utils';
+import {AbstractComponent} from './AbstractComponent.js';
 
-export class Route {
-  constructor({startTime, duration, price, destanation, offers, icon}) {
+export class Point extends AbstractComponent {
+  constructor({startTime, duration, price, destanation, offers, icon}, props) {
+    super(props);
     this._startTime = startTime;
     this._duration = duration;
     this._price = price;
@@ -11,14 +12,6 @@ export class Route {
     this._offers = offers;
     this._icon = icon;
     this._element = null;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 
   getTemplate() {

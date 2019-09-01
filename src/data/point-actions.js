@@ -1,5 +1,4 @@
-// remove this file
-export const routeActions = new Set([
+export const pointActions = new Set([
   {
     id: `taxi`,
     type: `city`,
