@@ -15,6 +15,7 @@ export class AbstractComponent {
       template.insertAdjacentHTML(Position.AFTERBEGIN, this.getTemplate());
       this._node = template.children[0];
       // template.innerHTML = this.getTemplate();
+      // console.log(template.content);
       // this._node = template.content;
     }
 
@@ -22,6 +23,7 @@ export class AbstractComponent {
   }
 
   remove() {
+    this._node.remove();
     this._node = null;
   }
 
