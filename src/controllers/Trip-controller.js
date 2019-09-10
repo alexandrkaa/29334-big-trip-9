@@ -37,14 +37,23 @@ export class TripController {
         });
       }
       if (evt.type === `submit`) {
-        this._currentlyOpened.splice(this._currentlyOpened.findIndex((it) => {
-          return it.oldView === newView;
-        }), 1);
+        const idx = this._currentlyOpened.findIndex((it) => {
+          return it.newView === newView;
+        });
+        if (idx !== -1) {
+          this._currentlyOpened.splice(idx, 1);
+        }
       }
     });
     if (evt.type === `keydown`) {
-      // почему тут теряется контекст???
       this._currentlyOpened.splice(0, this._currentlyOpened.length);
+    }
+  }
+
+  _switchToElementOnEsc(evt) {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      this._replacePoints(this._currentlyOpened, evt);
     }
   }
 
@@ -53,9 +62,11 @@ export class TripController {
     const pointEdit = new PointEdit(pointPlaces, pointData);
     const pointElement = point.node;
     const pointEditElement = pointEdit.node;
-    pointEditElement.querySelector(`.event--edit`).addEventListener(`submit`, this._replacePoints.bind(this, [{oldView: pointEditElement, newView: pointElement}]));
-    pointEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, onEscPress.bind(null, this._replacePoints.bind(this, [{oldView: pointEditElement, newView: pointElement}])));
-    pointElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, this._replacePoints.bind(this, [{oldView: pointElement, newView: pointEditElement}]));
+    const switchToEditElement = this._replacePoints.bind(this, [{oldView: pointElement, newView: pointEditElement}]);
+    const switchToElement = this._replacePoints.bind(this, [{oldView: pointEditElement, newView: pointElement}]);
+    pointEditElement.querySelector(`.event--edit`).addEventListener(`submit`, switchToElement);
+    pointEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, this._switchToElementOnEsc);
+    pointElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, switchToEditElement);
     this._points.push({pointData, pointElement, pointEditElement});
     this._totalPrice += pointData.price;
     return pointElement;
@@ -113,6 +124,8 @@ export class TripController {
       }
     });
     this._totalPriceBlock.textContent = `Total: € ${this._totalPrice}`;
-    document.addEventListener(`keydown`, onEscPress.bind(null, this._replacePoints.bind(null, this._currentlyOpened)));
+    // document.addEventListener(`keydown`, onEscPress.bind(null, this._replacePoints.bind(this, this._currentlyOpened)));
+    const _switchToElementOnEsc = this._switchToElementOnEsc.bind(this);
+    document.addEventListener(`keydown`, _switchToElementOnEsc);
   }
 }
