@@ -1,4 +1,4 @@
-import {Position} from './utils';
+import {Position} from '../utils';
 
 export class AbstractComponent {
   constructor(props) {

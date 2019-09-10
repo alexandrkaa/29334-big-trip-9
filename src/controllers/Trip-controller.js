@@ -1,5 +1,5 @@
 import {Menu, Filter, Sort, Days, Day, Point, TripInfo, PointEdit} from '../components';
-import {Position, render, onEscPress} from '../components/utils';
+import {Position, render} from '../utils';
 // data
 import {onePoint} from '../data/one-point';
 import {pointPlaces} from '../data/places';

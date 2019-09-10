@@ -1,4 +1,4 @@
-import {randomInt} from '../components/utils';
+import {randomInt} from '../utils';
 import {pointActions} from './point-actions';
 import {pointPlaces} from './places';
 import {pointOffers} from './offers';
