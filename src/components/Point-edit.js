@@ -1,4 +1,4 @@
-import {formatDate} from './utils';
+import {formatDate} from '../utils';
 import {AbstractComponent} from './AbstractComponent';
 
 export class PointEdit extends AbstractComponent {

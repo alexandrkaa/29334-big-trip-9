@@ -1,5 +1,5 @@
 // import {oneRoute} from '../data/route';
-import {msToHoursMins} from './utils';
+import {msToHoursMins} from '../utils';
 import {AbstractComponent} from './AbstractComponent.js';
 
 export class Point extends AbstractComponent {
