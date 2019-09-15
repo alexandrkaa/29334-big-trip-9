@@ -1,6 +1,7 @@
 // import {oneRoute} from '../data/route';
 import {msToHoursMins} from '../utils';
 import {AbstractComponent} from './AbstractComponent.js';
+import moment from 'moment';
 
 export class Point extends AbstractComponent {
   constructor({startTime, duration, price, destanation, offers, icon}, props) {
@@ -19,7 +20,7 @@ export class Point extends AbstractComponent {
     const startTime = new Date(this._startTime);
     const duration = msToHoursMins(this._duration);
     return `
-    <li class="trip-events__item">
+    <!-- <li class="trip-events__item"> -->
       <div class="event">
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${this._icon}" alt="Event type icon">
@@ -56,7 +57,7 @@ export class Point extends AbstractComponent {
           <span class="visually-hidden">Open event</span>
         </button>
       </div>
-    </li>
+    <!-- </li> -->
   `.trim();
   }
 }

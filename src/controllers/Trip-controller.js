@@ -1,17 +1,20 @@
 import {Menu, Filter, Sort, Days, Day, Point, TripInfo, PointEdit} from '../components';
 import {Position, render} from '../utils';
+import moment from 'moment';
 // data
-import {onePoint} from '../data/one-point';
-import {pointPlaces} from '../data/places';
+// import {onePoint} from '../data/one-point';
+// import {pointPlaces} from '../data/places';
 export class TripController {
-  constructor(container) {
+  constructor(allPoints, pointPlaces, container) {
     this._container = container;
-    this._DAYS_NUM = 3;
-    this._POINTS_NUM = 5;
+    // this._DAYS_NUM = 3;
+    // this._POINTS_NUM = 5;
     this._days = new Days();
     this._menu = new Menu();
     this._filter = new Filter();
     this._sort = new Sort();
+    // this._tripInfo = new TripInfo(pointPlaces);
+    this._pointPlaces = pointPlaces;
     this._tripInfo = new TripInfo(pointPlaces);
     this._currentlyOpened = [];
     this._tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
@@ -22,7 +25,14 @@ export class TripController {
     this._points = [];
     this._totalPrice = 0;
     this._day = null;
-    this._allPoints = new Array(15).fill(``).map(() => onePoint());
+    this._allPoints = allPoints;
+    this._subscriptions = [];
+    this._onDataChange = this._onDataChange.bind(this);
+  }
+
+  _onDataChange(newData, oldData) {
+    this._allPoints[this._allPoints.findIndex((it) => it === oldData)] = newData;
+    this._renderEventsList(this._allPoints);
   }
 
   _replacePoints(views, evt) {
@@ -59,7 +69,7 @@ export class TripController {
 
   _createPoint(pointData) {
     const point = new Point(pointData);
-    const pointEdit = new PointEdit(pointPlaces, pointData);
+    const pointEdit = new PointEdit(this._pointPlaces, pointData);
     const pointElement = point.node;
     const pointEditElement = pointEdit.node;
     const switchToEditElement = this._replacePoints.bind(this, [{oldView: pointElement, newView: pointEditElement}]);
@@ -73,20 +83,25 @@ export class TripController {
   }
 
   _renderEventsList(points) {
+    const uniquieDays = [...new Set(points.map((point) => moment.unix(point.startTime / 1000).format(`YYYY-MM-DD`)))];
     let daysFragment = null;
     daysFragment = document.createDocumentFragment();
-    let pointCnt = 0;
-    for (let i = 0; i < this._DAYS_NUM; i++) {
-      this._day = new Day();
+    uniquieDays.forEach((it) => {
+      const curDayPoints = points.filter((p) => {
+        return moment.unix(p.startTime / 1000).format(`YYYY-MM-DD`) === it;
+      });
+      this._day = new Day(moment(it).unix(), curDayPoints.length, moment(it).format(`D`));
       let pointsFragment = null;
       pointsFragment = document.createDocumentFragment();
-      for (let j = 0; j < this._POINTS_NUM; j++) {
-        render(pointsFragment, this._createPoint(points[pointCnt++]), Position.BEFOREEND);
+      const pointContainers = Array.from(this._day.node.querySelectorAll(`.trip-events__item`));
+
+      for (let j = 0; j < pointContainers.length; j++) {
+        render(pointContainers[j], this._createPoint(curDayPoints[j]), Position.BEFOREEND);
       }
       let dayPoints = this._day.node;
       render(dayPoints.querySelector(`.trip-events__list`), pointsFragment, Position.BEFOREEND);
       render(daysFragment, dayPoints, Position.BEFOREEND);
-    }
+    });
     render(this._days.node, daysFragment, Position.BEFOREEND);
     render(this._tripEventsBlock, this._days.node, Position.BEFOREEND);
   }
