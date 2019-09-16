@@ -17,22 +17,12 @@ export class PointController {
     const pointEdit = new PointEdit(pointPlaces, pointData);
     const pointElement = point.node;
     const pointEditElement = pointEdit.node;
-    const switchToEditElement = this._replacePoints.bind(this, [{
-      oldView: pointElement,
-      newView: pointEditElement
-    }]);
-    const switchToElement = this._replacePoints.bind(this, [{
-      oldView: pointEditElement,
-      newView: pointElement
-    }]);
+    const switchToEditElement = this._replacePoints.bind(this, [{oldView: pointElement, newView: pointEditElement}]);
+    const switchToElement = this._replacePoints.bind(this, [{oldView: pointEditElement, newView: pointElement}]);
     pointEditElement.querySelector(`.event--edit`).addEventListener(`submit`, switchToElement);
     pointEditElement.querySelector(`.event--edit`).addEventListener(`keydown`, this._switchToElementOnEsc);
     pointElement.querySelector(`.event__rollup-btn`).addEventListener(`click`, switchToEditElement);
-    this._points.push({
-      pointData,
-      pointElement,
-      pointEditElement
-    });
+    this._points.push({pointData, pointElement, pointEditElement});
     this._totalPrice += pointData.price;
     return pointElement;
   }

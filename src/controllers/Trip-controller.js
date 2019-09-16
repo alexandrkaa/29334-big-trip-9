@@ -86,11 +86,11 @@ export class TripController {
     const uniquieDays = [...new Set(points.map((point) => moment.unix(point.startTime / 1000).format(`YYYY-MM-DD`)))];
     let daysFragment = null;
     daysFragment = document.createDocumentFragment();
-    uniquieDays.forEach((it) => {
-      const curDayPoints = points.filter((p) => {
-        return moment.unix(p.startTime / 1000).format(`YYYY-MM-DD`) === it;
+    uniquieDays.forEach((uniquieDay) => {
+      const curDayPoints = points.filter((it) => {
+        return moment.unix(it.startTime / 1000).format(`YYYY-MM-DD`) === uniquieDay;
       });
-      this._day = new Day(moment(it).unix(), curDayPoints.length, moment(it).format(`D`));
+      this._day = new Day(moment(uniquieDay).unix(), curDayPoints.length, moment(uniquieDay).format(`D`));
       let pointsFragment = null;
       pointsFragment = document.createDocumentFragment();
       const pointContainers = Array.from(this._day.node.querySelectorAll(`.trip-events__item`));
