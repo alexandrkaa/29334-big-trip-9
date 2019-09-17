@@ -16,8 +16,8 @@ export class Point extends AbstractComponent {
   }
 
   getTemplate() {
-    const endTime = new Date(this._startTime + this._duration);
-    const startTime = new Date(this._startTime);
+    // const endTime = new Date(this._startTime + this._duration);
+    // const startTime = new Date(this._startTime);
     const duration = msToHoursMins(this._duration);
     return `
     <!-- <li class="trip-events__item"> -->
@@ -29,9 +29,9 @@ export class Point extends AbstractComponent {
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${startTime.toISOString()}">${(startTime.getHours() < 10 ? `0` + startTime.getHours() : startTime.getHours())}:${(startTime.getMinutes() < 10 ? `0` + startTime.getMinutes() : startTime.getMinutes())}</time>
+            <time class="event__start-time" datetime="${moment.unix(this._startTime).format()}">${moment.unix(this._startTime).format(`HH:MM`)}</time>
             &mdash;
-            <time class="event__end-time" datetime="${endTime.toISOString()}">${(endTime.getHours() < 10 ? `0` + endTime.getHours() : endTime.getHours())}:${(endTime.getMinutes() < 10 ? `0` + endTime.getMinutes() : endTime.getMinutes())}</time>
+            <time class="event__end-time" datetime="${moment.unix((this._startTime + this._duration)).format()}">${moment.unix((this._startTime + this._duration)).format(`HH:MM`)}</time>
           </p>
           <p class="event__duration">${duration.hours}H ${duration.minutes}M</p>
         </div>

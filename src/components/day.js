@@ -17,7 +17,7 @@ export class Day extends AbstractComponent {
       <li class="trip-days__item  day">
         <div class="day__info">
           <span class="day__counter">${this._dayCounter}</span>
-          <time class="day__date" datetime="${moment.unix(this._date / 1000).format(`YYYY-MM-DD`)}">${moment.unix(this._date / 1000).format(`MMM DD`)}</time>
+          <time class="day__date" datetime="${moment.unix(this._date).format()}">${moment.unix(this._date).format(`MMM DD`)}</time>
         </div>
         <ul class="trip-events__list">
         ${new Array(this._pointsNum).fill(``).map(() => {
