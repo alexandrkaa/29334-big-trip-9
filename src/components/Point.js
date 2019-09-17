@@ -1,5 +1,5 @@
 // import {oneRoute} from '../data/route';
-import {msToHoursMins} from '../utils';
+// import {msToHoursMins} from '../utils';
 import {AbstractComponent} from './AbstractComponent.js';
 import moment from 'moment';
 
@@ -18,7 +18,8 @@ export class Point extends AbstractComponent {
   getTemplate() {
     // const endTime = new Date(this._startTime + this._duration);
     // const startTime = new Date(this._startTime);
-    const duration = msToHoursMins(this._duration);
+    // const duration = msToHoursMins(this._duration);
+    const dateDiff = moment.utc(moment.unix(moment.unix(this._startTime + this._duration)).diff(this._startTime));
     return `
     <!-- <li class="trip-events__item"> -->
       <div class="event">
@@ -29,11 +30,11 @@ export class Point extends AbstractComponent {
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${moment.unix(this._startTime).format()}">${moment.unix(this._startTime).format(`HH:MM`)}</time>
+            <time class="event__start-time" datetime="${moment.unix(this._startTime).format()}">${moment.unix(this._startTime).format(`HH:mm`)}</time>
             &mdash;
-            <time class="event__end-time" datetime="${moment.unix((this._startTime + this._duration)).format()}">${moment.unix((this._startTime + this._duration)).format(`HH:MM`)}</time>
+            <time class="event__end-time" datetime="${moment.unix((this._startTime + this._duration)).format()}">${moment.unix(this._startTime + this._duration).format(`HH:mm`)}</time>
           </p>
-          <p class="event__duration">${duration.hours}H ${duration.minutes}M</p>
+          <p class="event__duration">${dateDiff.format(`HH`)}H ${dateDiff.format(`mm`)}M</p>
         </div>
 
         <p class="event__price">

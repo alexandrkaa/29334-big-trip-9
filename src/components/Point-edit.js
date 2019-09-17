@@ -109,12 +109,12 @@ export class PointEdit extends AbstractComponent {
             <label class="visually-hidden" for="event-start-time-1">
               From
             </label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment.unix(this._startTime).format(`DD/MM/YYYY HH:MM`)}">
+            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment.unix(this._startTime).format(`DD/MM/YYYY HH:mm`)}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">
               To
             </label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment.unix(this._startTime + this._duration).format(`DD/MM/YYYY HH:MM`)}">
+            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment.unix(this._startTime + this._duration).format(`DD/MM/YYYY HH:mm`)}">
           </div>
 
           <div class="event__field-group  event__field-group--price">
@@ -181,7 +181,7 @@ export class PointEdit extends AbstractComponent {
   get data() {
     const _formData = new FormData(this.node.querySelector(`.event--edit`));
     const eventType = _formData.get(`event-type`);
-    const eventDestanation = _formData.get(`event-destination`);
+    const eventDestanation = ` to ${_formData.get(`event-destination`)}`;
     const startTime = _formData.get(`event-start-time`);
     const endTime = _formData.get(`event-end-time`);
     const price = _formData.get(`event-price`);
