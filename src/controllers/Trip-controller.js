@@ -1,4 +1,5 @@
-import {Menu, Filter, Sort, Days, Day, Point, TripInfo, PointEdit} from '../components';
+// import {Menu, Filter, Sort, Days, Day, Point, TripInfo, PointEdit} from '../components';
+import {Menu, Filter, Sort, Days, Day, TripInfo} from '../components';
 import {Position, render} from '../utils';
 import moment from 'moment';
 import {PointController} from './Point-Controller';

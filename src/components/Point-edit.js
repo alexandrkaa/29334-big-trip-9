@@ -194,11 +194,11 @@ export class PointEdit extends AbstractComponent {
         selected: offer.checked
       };
     });
-    const photos = Array.from(this.node.querySelectorAll(`.event__photo`)).map((photo) => {
+    const photos = Array.from(this.node.querySelectorAll(`.event__photo`)).map(() => {
       // return photo.src;
       return `http://picsum.photos/300/150?r=${Math.random()}`;
     });
-    const favorite = _formData.get(`event-favorite`) === 'on' ? true : false;
+    const favorite = _formData.get(`event-favorite`) === `on` ? true : false;
     return {eventType, eventDestanation, startTime, endTime, price, isFavorite, offers, photos, favorite};
   }
 }
