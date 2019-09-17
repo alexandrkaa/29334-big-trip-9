@@ -9,8 +9,10 @@ export const onePoint = () => {
   const routeAction = Array.from(pointActions).sort(() => 0.5 - Math.random()).slice(0, 1)[0];
   const routePlace = pointPlaces.filter((it) => it.type === routeAction.type).sort(() => 0.5 - Math.random()).slice(0, 1)[0];
   return {
-    startTime: Date.now() + 1 + randomInt(100, 100 * 60) * 60 * 1000, // ms
-    duration: randomInt(10, 600) * 60 * 1000, // ms
+    // startTime: Date.now() + 1 + randomInt(100, 100 * 60) * 60 * 1000, // ms
+    // duration: randomInt(10, 600) * 60 * 1000, // ms
+    startTime: (Date.now() / 1000) + randomInt(100, 100 * 60) * 60, // s
+    duration: randomInt(10, 600) * 60, // s
     price: (Math.floor(Math.random() * 100) + 1) * 10,
     destanation: `${routeAction.txt} ${routePlace.name}`,
     offers: pointOffers.sort(() => 0.5 - Math.random()).slice(0, randomInt(0, 2)),

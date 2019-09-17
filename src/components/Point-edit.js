@@ -1,5 +1,6 @@
-import {formatDate} from '../utils';
+// import {formatDate} from '../utils';
 import {AbstractComponent} from './AbstractComponent';
+import moment from 'moment';
 
 export class PointEdit extends AbstractComponent {
   constructor(routePlaces, {startTime, duration, price, destanation, offers, icon, photos, description, favorite, routeAction, routePlace}, props) {
@@ -108,12 +109,12 @@ export class PointEdit extends AbstractComponent {
             <label class="visually-hidden" for="event-start-time-1">
               From
             </label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatDate(this._startTime)}">
+            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment.unix(this._startTime).format(`DD/MM/YYYY HH:MM`)}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">
               To
             </label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatDate(this._startTime + this._duration)}">
+            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment.unix(this._startTime + this._duration).format(`DD/MM/YYYY HH:MM`)}">
           </div>
 
           <div class="event__field-group  event__field-group--price">
@@ -148,7 +149,7 @@ export class PointEdit extends AbstractComponent {
             <div class="event__available-offers">
               ${this._offers.map((offer) => {
     return `<div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-${offer.id}" type="checkbox" name="event-offer-luggage" ${offer.selected ? `checked` : ``}>
+                  <input class="event__offer-checkbox  visually-hidden" data-offer-price="${offer.price}" data-offer-name="${offer.name}" id="event-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${offer.selected ? `checked` : ``}>
                   <label class="event__offer-label" for="event-${offer.id}">
                     <span class="event__offer-title">${offer.name}</span>
                     &plus;
@@ -176,5 +177,28 @@ export class PointEdit extends AbstractComponent {
       </form>
     </li>
   `.trim();
+  }
+  get data() {
+    const _formData = new FormData(this.node.querySelector(`.event--edit`));
+    const eventType = _formData.get(`event-type`);
+    const eventDestanation = _formData.get(`event-destination`);
+    const startTime = _formData.get(`event-start-time`);
+    const endTime = _formData.get(`event-end-time`);
+    const price = _formData.get(`event-price`);
+    const isFavorite = _formData.get(`event-favorite`);
+    const offers = Array.from(this.node.querySelectorAll(`.event__offer-checkbox`)).map((offer) => {
+      return {
+        id: offer.id,
+        name: offer.getAttribute(`data-offer-name`),
+        price: offer.getAttribute(`data-offer-price`),
+        selected: offer.checked
+      };
+    });
+    const photos = Array.from(this.node.querySelectorAll(`.event__photo`)).map(() => {
+      // return photo.src;
+      return `http://picsum.photos/300/150?r=${Math.random()}`;
+    });
+    const favorite = _formData.get(`event-favorite`) === `on` ? true : false;
+    return {eventType, eventDestanation, startTime, endTime, price, isFavorite, offers, photos, favorite};
   }
 }

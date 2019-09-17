@@ -1,6 +1,7 @@
 // import {oneRoute} from '../data/route';
 import {msToHoursMins} from '../utils';
 import {AbstractComponent} from './AbstractComponent.js';
+import moment from 'moment';
 
 export class Point extends AbstractComponent {
   constructor({startTime, duration, price, destanation, offers, icon}, props) {
@@ -15,11 +16,11 @@ export class Point extends AbstractComponent {
   }
 
   getTemplate() {
-    const endTime = new Date(this._startTime + this._duration);
-    const startTime = new Date(this._startTime);
+    // const endTime = new Date(this._startTime + this._duration);
+    // const startTime = new Date(this._startTime);
     const duration = msToHoursMins(this._duration);
     return `
-    <li class="trip-events__item">
+    <!-- <li class="trip-events__item"> -->
       <div class="event">
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${this._icon}" alt="Event type icon">
@@ -28,9 +29,9 @@ export class Point extends AbstractComponent {
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${startTime.toISOString()}">${(startTime.getHours() < 10 ? `0` + startTime.getHours() : startTime.getHours())}:${(startTime.getMinutes() < 10 ? `0` + startTime.getMinutes() : startTime.getMinutes())}</time>
+            <time class="event__start-time" datetime="${moment.unix(this._startTime).format()}">${moment.unix(this._startTime).format(`HH:MM`)}</time>
             &mdash;
-            <time class="event__end-time" datetime="${endTime.toISOString()}">${(endTime.getHours() < 10 ? `0` + endTime.getHours() : endTime.getHours())}:${(endTime.getMinutes() < 10 ? `0` + endTime.getMinutes() : endTime.getMinutes())}</time>
+            <time class="event__end-time" datetime="${moment.unix((this._startTime + this._duration)).format()}">${moment.unix((this._startTime + this._duration)).format(`HH:MM`)}</time>
           </p>
           <p class="event__duration">${duration.hours}H ${duration.minutes}M</p>
         </div>
@@ -56,7 +57,7 @@ export class Point extends AbstractComponent {
           <span class="visually-hidden">Open event</span>
         </button>
       </div>
-    </li>
+    <!-- </li> -->
   `.trim();
   }
 }
