@@ -7,6 +7,7 @@ export class Stats extends AbstractComponent {
 
   getTemplate() {
     return `
+    <div class="page-body__container">
       <section class="statistics">
         <h2 class="visually-hidden">Trip statistics</h2>
 
@@ -22,6 +23,7 @@ export class Stats extends AbstractComponent {
           <canvas class="statistics__chart  statistics__chart--time" width="900"></canvas>
         </div>
       </section>
+    </div>
     `.trim();
   }
 }

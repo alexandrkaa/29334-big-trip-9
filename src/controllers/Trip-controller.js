@@ -1,5 +1,5 @@
 // import {Menu, Filter, Sort, Days, Day, Point, TripInfo, PointEdit} from '../components';
-import {Menu, Filter, Sort, Days, Day, TripInfo} from '../components';
+import {Menu, Filter, Sort, Days, Day, TripInfo, Trip} from '../components';
 import {Position, render} from '../utils';
 import moment from 'moment';
 import {PointController} from './Point-Controller';
@@ -18,7 +18,12 @@ export class TripController {
     // this._currentlyOpened = [];
     this._tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
     this._tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
-    this._tripEventsBlock = document.querySelector(`.trip-events`);
+
+    this._tripBlock = new Trip();
+
+    // this._tripEventsBlock = document.querySelector(`.trip-events`);
+    this._tripEventsBlock = this._tripBlock.node.querySelector(`.trip-events`);
+
     this._statsBlock = document.querySelector(`.statistics`);
     this._totalPriceBlock = document.querySelector(`.trip-info__cost`);
     this._daysList = this._days.node;
@@ -27,13 +32,23 @@ export class TripController {
     this._subscriptions = [];
     this._onDataChange = this._onDataChange.bind(this);
     this._onChangeView = this._onChangeView.bind(this);
+    this._SECTIONS = {
+      stats: `stats`,
+      table: `table`
+    };
   }
 
   _onDataChange(newData, oldData) {
     const idx = this._allPoints.findIndex((it) => it === oldData);
-    this._allPoints[idx] = newData;
+    if (newData === null) {
+      this._allPoints.splice(idx, 1);
+    } else {
+      this._allPoints[idx] = newData;
+    }
+
     // this._days.remove();
     // this._renderEventsList(this._allPoints);
+
   }
 
   _onChangeView() {
@@ -44,12 +59,16 @@ export class TripController {
 
   _switchToStats() {
     this._tripEventsBlock.classList.add(`visually-hidden`);
+    // this._tripEventsBlock.classList.remove(`trip-tabs__btn--active`);
     this._statsBlock.classList.remove(`visually-hidden`);
+    // this._statsBlock.classList.add(`trip-tabs__btn--active`);
   }
 
   _switchToEvents() {
     this._tripEventsBlock.classList.remove(`visually-hidden`);
+    // this._tripEventsBlock.classList.add(`trip-tabs__btn--active`);
     this._statsBlock.classList.add(`visually-hidden`);
+    // this._statsBlock.classList.remove(`trip-tabs__btn--active`);
   }
 
   _renderEventsList(points) {
@@ -86,7 +105,23 @@ export class TripController {
   }
 
   init() {
+    this._switchToStats();
+    render(this._container, this._tripBlock.node, Position.AFTERBEGIN);
     render(this._tripInfoBlock, this._tripInfo.node, Position.AFTERBEGIN);
+    const _switchSections = (evt) => {
+      this._menu.node.querySelectorAll(`.trip-tabs__btn`).forEach((tab) => {
+        tab.classList.remove(`trip-tabs__btn--active`);
+      });
+      if (evt.target.dataset.section === this._SECTIONS.stats) {
+        this._switchToStats();
+      } else {
+        this._switchToEvents();
+      }
+      evt.target.classList.add(`trip-tabs__btn--active`);
+    };
+    Array.from(this._menu.node.querySelectorAll(`.trip-tabs__btn`)).forEach((tab) => {
+      tab.addEventListener(`click`, _switchSections);
+    });
     render(this._tripControlsBlock, this._menu.node, Position.BEFOREEND);
     render(this._tripControlsBlock, this._filter.node, Position.BEFOREEND);
     render(this._tripEventsBlock, this._sort.node, Position.BEFOREEND);

@@ -13,6 +13,12 @@ export class PointController {
     this._pointData = pointData;
     this._point = new Point(pointData);
     this._pointEdit = new PointEdit(pointPlaces, pointData);
+    this._pointEdit.node.querySelector(`.event__reset-btn`).addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      console.log(evt.target);
+      // this._point.remove();
+      // this._pointEdit.remove();
+    });
     this._pointElement = this._point.node;
     this._pointEditElement = this._pointEdit.node;
     this._onDataChange = onDataChange;
@@ -44,6 +50,7 @@ export class PointController {
       this._point.remove();
       this._point = new Point(this._pointData);
       this._container.replaceChild(this._point.node, this._pointEdit.node);
+      this._pointEdit.remove();
       this._pointEdit = new PointEdit(pointPlaces, newData);
       this._activateListeners();
       this._activateFlatpickr();
