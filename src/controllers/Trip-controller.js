@@ -19,6 +19,7 @@ export class TripController {
     this._tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
     this._tripControlsBlock = document.querySelector(`.trip-main__trip-controls`);
     this._tripEventsBlock = document.querySelector(`.trip-events`);
+    this._statsBlock = document.querySelector(`.statistics`);
     this._totalPriceBlock = document.querySelector(`.trip-info__cost`);
     this._daysList = this._days.node;
     this._day = null;
@@ -41,12 +42,15 @@ export class TripController {
     });
   }
 
-  // _switchToElementOnEsc(evt) {
-  //   if (evt.key === `Escape` || evt.key === `Esc`) {
-  //     evt.preventDefault();
-  //     this._replacePoints(this._currentlyOpened, evt);
-  //   }
-  // }
+  _switchToStats() {
+    this._tripEventsBlock.classList.add(`visually-hidden`);
+    this._statsBlock.classList.remove(`visually-hidden`);
+  }
+
+  _switchToEvents() {
+    this._tripEventsBlock.classList.remove(`visually-hidden`);
+    this._statsBlock.classList.add(`visually-hidden`);
+  }
 
   _renderEventsList(points) {
     const uniquieDays = [...new Set(points.map((point) => moment.unix(point.startTime).format(`YYYY-MM-DD`)))];

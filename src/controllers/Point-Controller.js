@@ -1,5 +1,6 @@
 import {Point, PointEdit} from '../components';
 import {pointPlaces} from '../data/places';
+import {pointActions} from '../data/point-actions';
 import {Position, render} from '../utils';
 import moment from 'moment';
 import flatpickr from 'flatpickr';
@@ -27,7 +28,9 @@ export class PointController {
         startTime: moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix(), // s
         duration: (moment(this._pointEdit.data.endTime, `DD/MM/YYYY HH:mm`).unix() - moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix()), // s
         price: parseInt(this._pointEdit.data.price, 10),
-        destanation: this._pointEdit.data.eventDestanation,
+        destanation: `${Array.from(pointActions).find((it) => {
+          return it.id === this._pointEdit.data.eventType;
+        }).txt} ${this._pointEdit.data.eventDestanation}`,
         offers: this._pointEdit.data.offers,
         icon: `${this._pointEdit.data.eventType}.png`,
         photos: this._pointEdit.data.photos,
