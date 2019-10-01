@@ -25,3 +25,19 @@ export const onePoint = () => {
     routePlace: routePlace.name,
   };
 };
+
+export const defaultPoint = () => {
+  return {
+    startTime: (Date.now() / 1000), // s
+    duration: 0, // s
+    price: 0,
+    destanation: ``,
+    offers: pointOffers.sort(() => 0.5 - Math.random()).slice(0, randomInt(0, 2)),
+    icon: `flight.png`,
+    photos: [],
+    description: ``,
+    favorite: false,
+    routeAction: ``,
+    routePlace: ``,
+  };
+};

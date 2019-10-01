@@ -9,8 +9,8 @@ export class Menu extends AbstractComponent {
   getTemplate() {
     return `
       <nav class="trip-controls__trip-tabs  trip-tabs">
-        <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
-        <a class="trip-tabs__btn" href="#">Stats</a>
+        <a class="trip-tabs__btn" data-section="table" href="#">Table</a>
+        <a class="trip-tabs__btn trip-tabs__btn--active"  data-section="stats" href="#">Stats</a>
       </nav>
     `.trim();
   }

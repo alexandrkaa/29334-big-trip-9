@@ -178,10 +178,11 @@ export class PointEdit extends AbstractComponent {
     </li>
   `.trim();
   }
+
   get data() {
     const _formData = new FormData(this.node.querySelector(`.event--edit`));
     const eventType = _formData.get(`event-type`);
-    const eventDestanation = ` to ${_formData.get(`event-destination`)}`;
+    const eventDestanation = `${_formData.get(`event-destination`)}`;
     const startTime = _formData.get(`event-start-time`);
     const endTime = _formData.get(`event-end-time`);
     const price = _formData.get(`event-price`);
