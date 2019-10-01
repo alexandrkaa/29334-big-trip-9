@@ -4,7 +4,7 @@ import {Position, render} from '../utils';
 import moment from 'moment';
 import {PointController} from './Point-Controller';
 // data
-// import {onePoint} from '../data/one-point';
+import {defaultPoint} from '../data/one-point';
 // import {pointPlaces} from '../data/places';
 export class TripController {
   constructor(allPoints, pointPlaces, container) {
@@ -36,19 +36,23 @@ export class TripController {
       stats: `stats`,
       table: `table`
     };
+    document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+      // console.log(evt.target);
+      this._onDataChange(defaultPoint(), null);
+    });
   }
 
   _onDataChange(newData, oldData) {
     const idx = this._allPoints.findIndex((it) => it === oldData);
     if (newData === null) {
       this._allPoints.splice(idx, 1);
+    } else if (oldData === null) {
+      this._allPoints.unshift(newData);
     } else {
-      this._allPoints[idx] = newData;
+      this._allPoints[idx] = Object.assign({}, oldData, newData);
     }
-
-    // this._days.remove();
-    // this._renderEventsList(this._allPoints);
-
+    this._subscriptions.splice(0, this._subscriptions.length);
+    this._renderEventsList(this._allPoints);
   }
 
   _onChangeView() {
@@ -72,6 +76,7 @@ export class TripController {
   }
 
   _renderEventsList(points) {
+    this._days.remove();
     const uniquieDays = [...new Set(points.map((point) => moment.unix(point.startTime).format(`YYYY-MM-DD`)))];
     let daysFragment = null;
     daysFragment = document.createDocumentFragment();
@@ -87,6 +92,7 @@ export class TripController {
       for (let j = 0; j < pointContainers.length; j++) {
         // render(pointContainers[j], this._createPoint(curDayPoints[j]), Position.BEFOREEND);
         const pointCtrl = new PointController(pointContainers[j], curDayPoints[j], this._onDataChange, this._onChangeView);
+        // this._subscriptions.push(pointCtrl.setDefaultView.bind(pointCtrl));
         this._subscriptions.push(pointCtrl.setDefaultView.bind(pointCtrl));
       }
       let dayPoints = this._day.node;
@@ -105,7 +111,9 @@ export class TripController {
   }
 
   init() {
+    // !!! не забудь включить
     this._switchToStats();
+
     render(this._container, this._tripBlock.node, Position.AFTERBEGIN);
     render(this._tripInfoBlock, this._tripInfo.node, Position.AFTERBEGIN);
     const _switchSections = (evt) => {

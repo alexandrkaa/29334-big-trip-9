@@ -15,9 +15,7 @@ export class PointController {
     this._pointEdit = new PointEdit(pointPlaces, pointData);
     this._pointEdit.node.querySelector(`.event__reset-btn`).addEventListener(`click`, (evt) => {
       evt.preventDefault();
-      console.log(evt.target);
-      // this._point.remove();
-      // this._pointEdit.remove();
+      this._onDataChange(null, this._pointData);
     });
     this._pointElement = this._point.node;
     this._pointEditElement = this._pointEdit.node;
@@ -29,7 +27,20 @@ export class PointController {
 
   setDefaultView() {
     if (this._container.contains(this._pointEdit.node)) {
-      const routeDescripttihon = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
+      this._container.replaceChild(this._point.node, this._pointEdit.node);
+    }
+  }
+
+  _setEditView() {
+    if (this._container.contains(this._point.node)) {
+      this._onChangeView();
+      this._container.replaceChild(this._pointEdit.node, this._point.node);
+    }
+  }
+
+  _activateListeners() {
+    const setDefaultView = (evt) => {
+      evt.preventDefault();
       const newData = {
         startTime: moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix(), // s
         duration: (moment(this._pointEdit.data.endTime, `DD/MM/YYYY HH:mm`).unix() - moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix()), // s
@@ -39,40 +50,18 @@ export class PointController {
         }).txt} ${this._pointEdit.data.eventDestanation}`,
         offers: this._pointEdit.data.offers,
         icon: `${this._pointEdit.data.eventType}.png`,
-        photos: this._pointEdit.data.photos,
-        description: routeDescripttihon.split(`.`).filter((str) => str !== ``).sort(() => 0.5 - Math.random()).slice(0, 3).join(`.`),
+        // photos: this._pointEdit.data.photos,
+        // description: routeDescripttihon.split(`.`).filter((str) => str !== ``).sort(() => 0.5 - Math.random()).slice(0, 3).join(`.`),
         favorite: this._pointEdit.data.favorite,
         routeAction: this._pointEdit.data.eventType,
         routePlace: this._pointEdit.data.eventDestanation,
       };
       this._onDataChange(newData, this._pointData);
-      this._pointData = newData;
-      this._point.remove();
-      this._point = new Point(this._pointData);
-      this._container.replaceChild(this._point.node, this._pointEdit.node);
-      this._pointEdit.remove();
-      this._pointEdit = new PointEdit(pointPlaces, newData);
-      this._activateListeners();
-      this._activateFlatpickr();
-    }
-  }
-
-  _setEditView() {
-    if (this._container.contains(this._point.node)) {
-      this._onChangeView.call(this);
-      this._container.replaceChild(this._pointEdit.node, this._point.node);
-    }
-  }
-
-  _activateListeners() {
-    const setDefaultView = (evt) => {
-      evt.preventDefault();
       this.setDefaultView.call(this);
     };
     const setEditView = this._setEditView.bind(this);
     const setDefaultViewOnEsc = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
-        // this._pointEdit.resetForm();
         if (this._container.contains(this._pointEdit.node)) {
           this._container.replaceChild(this._point.node, this._pointEdit.node);
         }
@@ -90,7 +79,10 @@ export class PointController {
       defaultDate: this._pointData.startTime * 1000,
       altFormat: `d/m/Y H:i`,
       dateFormat: `d/m/Y H:i`,
-      enableTime: true
+      enableTime: true,
+      /*eslint-disable */
+      time_24hr: true
+      /* eslint-enable */
     });
 
     flatpickr(this._pointEdit.node.querySelector(`#event-end-time-1`), {
@@ -99,7 +91,10 @@ export class PointController {
       defaultDate: (this._pointData.startTime + this._pointData.duration) * 1000,
       altFormat: `d/m/Y H:i`,
       dateFormat: `d/m/Y H:i`,
-      enableTime: true
+      enableTime: true,
+      /*eslint-disable */
+      time_24hr: true
+      /* eslint-enable */
     });
   }
 

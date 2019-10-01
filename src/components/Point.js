@@ -16,10 +16,7 @@ export class Point extends AbstractComponent {
   }
 
   getTemplate() {
-    // const endTime = new Date(this._startTime + this._duration);
-    // const startTime = new Date(this._startTime);
-    // const duration = msToHoursMins(this._duration);
-    const dateDiff = moment.utc(moment.unix(moment.unix(this._startTime + this._duration)).diff(this._startTime));
+    const dateDiff = moment.utc(this._duration * 1000);
     return `
     <!-- <li class="trip-events__item"> -->
       <div class="event">
