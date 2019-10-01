@@ -40,4 +40,4 @@ export const defaultPoint = () => {
     routeAction: ``,
     routePlace: ``,
   };
-}
+};

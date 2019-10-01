@@ -37,7 +37,7 @@ export class TripController {
       table: `table`
     };
     document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
-      // console.log(evt.target);
+      evt.preventDefault();
       this._onDataChange(defaultPoint(), null);
     });
   }
