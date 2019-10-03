@@ -41,7 +41,7 @@ export class PointController {
   _activateListeners() {
     const setDefaultView = (evt) => {
       evt.preventDefault();
-      console.log((moment(this._pointEdit.data.endTime, `DD/MM/YYYY HH:mm`).unix() - moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix()));
+      // console.log((moment(this._pointEdit.data.endTime, `DD/MM/YYYY HH:mm`).unix() - moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix()));
       const newData = {
         startTime: moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix(), // s
         duration: (moment(this._pointEdit.data.endTime, `DD/MM/YYYY HH:mm`).unix() - moment(this._pointEdit.data.startTime, `DD/MM/YYYY HH:mm`).unix()), // s

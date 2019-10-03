@@ -6,5 +6,5 @@ export const pointPlaces = [
   {name: `airport`, type: `transport`},
   {name: `hotel`, type: `hotel`},
   {name: `Natural History Museum`, type: `sightseeing`},
-  { name: `Restaurant`, type: `restaurant`},
+  {name: `Restaurant`, type: `restaurant`},
 ];
