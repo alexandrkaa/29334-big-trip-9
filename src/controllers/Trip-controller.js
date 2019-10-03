@@ -8,6 +8,13 @@ import {StatsController} from './Stats-controller';
 // data
 import {defaultPoint} from '../data';
 // import {pointPlaces} from '../data/places';
+
+import {API} from '../modules/api';
+export const apiConfig = {
+  AUTHORIZATION: `Basic eo0w590ik29889a=${Math.random()}`,
+  END_POINT: `https://htmlacademy-es-9.appspot.com/big-trip/`
+};
+window.api = new API(apiConfig.END_POINT, apiConfig.AUTHORIZATION);
 export class TripController {
   constructor(allPoints, pointPlaces, container) {
     this._container = container;
