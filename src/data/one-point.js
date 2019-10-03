@@ -22,6 +22,8 @@ export const onePoint = () => {
     description: routeDescripttihon.split(`.`).filter((str) => str !== ``).sort(() => 0.5 - Math.random()).slice(0, 3).join(`.`),
     favorite: Boolean(Math.round(Math.random())),
     routeAction: routeAction.txt,
+    routeActionId: routeAction.id,
+    routeActionType: routeAction.type,
     routePlace: routePlace.name,
   };
 };
@@ -38,6 +40,8 @@ export const defaultPoint = () => {
     description: ``,
     favorite: false,
     routeAction: ``,
+    routeActionId: ``,
+    routeActionType: ``,
     routePlace: ``,
   };
 };

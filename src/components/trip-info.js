@@ -4,7 +4,7 @@ export class TripInfo extends AbstractComponent {
   constructor(pointPlaces, props) {
     super(props);
     this._element = null;
-    this._pointPlaces = pointPlaces.filter((place) => place.type === `city`);
+    this._pointPlaces = pointPlaces.filter((place) => place.type === `transport`);
   }
 
   getTemplate() {

@@ -930,3 +930,8 @@ main {
 
 .statistics__item:not(:last-child) {
   margin-bottom: 78px; }
+
+.statistics__chart {
+  margin-left: 100px;
+  max-width: calc(100% - 100px);
+}

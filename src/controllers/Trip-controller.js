@@ -2,9 +2,11 @@
 import {Menu, Filter, Sort, Days, Day, TripInfo, Trip} from '../components';
 import {Position, render} from '../utils';
 import moment from 'moment';
+// import chart from 'chart.js';
 import {PointController} from './Point-Controller';
+import {StatsController} from './Stats-controller';
 // data
-import {defaultPoint} from '../data/one-point';
+import {defaultPoint} from '../data';
 // import {pointPlaces} from '../data/places';
 export class TripController {
   constructor(allPoints, pointPlaces, container) {
@@ -24,7 +26,6 @@ export class TripController {
     // this._tripEventsBlock = document.querySelector(`.trip-events`);
     this._tripEventsBlock = this._tripBlock.node.querySelector(`.trip-events`);
 
-    this._statsBlock = document.querySelector(`.statistics`);
     this._totalPriceBlock = document.querySelector(`.trip-info__cost`);
     this._daysList = this._days.node;
     this._day = null;
@@ -40,6 +41,8 @@ export class TripController {
       evt.preventDefault();
       this._onDataChange(defaultPoint(), null);
     });
+    this._statsController = new StatsController(this._container, this._allPoints);
+    this._statsBlock = this._statsController.stats.node;
   }
 
   _onDataChange(newData, oldData) {
@@ -53,6 +56,7 @@ export class TripController {
     }
     this._subscriptions.splice(0, this._subscriptions.length);
     this._renderEventsList(this._allPoints);
+    this._statsController.updateCharts(this._allPoints);
   }
 
   _onChangeView() {
@@ -133,10 +137,19 @@ export class TripController {
     render(this._tripControlsBlock, this._menu.node, Position.BEFOREEND);
     render(this._tripControlsBlock, this._filter.node, Position.BEFOREEND);
     render(this._tripEventsBlock, this._sort.node, Position.BEFOREEND);
-    this._renderEventsList(this._allPoints);
+    this._renderEventsList(this._allPoints.slice(0, this._allPoints.length).sort((a, b) => {
+      if (a.destanation > b.destanation) {
+        return 1;
+      } else
+      if (a.destanation < b.destanation) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }));
     // sort
-    this._tripEventsBlock.querySelector(`.trip-sort`).addEventListener(`change`, (evt) => {
-      this._days.remove();
+    const onSortChange = (evt) => {
+      // this._days.remove();
       switch (evt.srcElement.id) {
         case `sort-event`:
           this._renderEventsList(this._allPoints.slice(0, this._allPoints.length).sort((a, b) => {
@@ -155,6 +168,23 @@ export class TripController {
           break;
         case `sort-price`:
           this._renderEventsList(this._allPoints.slice(0, this._allPoints.length).sort((a, b) => a.price - b.price));
+          break;
+        default:
+          this._renderEventsList(this._allPoints);
+          break;
+      }
+    };
+    this._tripEventsBlock.querySelector(`.trip-sort`).addEventListener(`change`, onSortChange);
+    this._filter.node.addEventListener(`change`, (evt) => {
+      switch (evt.target.value) {
+        case `future`:
+          this._renderEventsList(this._allPoints.slice().filter((it) => it.startTime > (Date.now() / 1000)));
+          break;
+        case `past`:
+          this._renderEventsList(this._allPoints.slice().filter((it) => it.startTime <= (Date.now() / 1000)));
+          break;
+        case `everything`:
+          this._renderEventsList(this._allPoints);
           break;
         default:
           this._renderEventsList(this._allPoints);

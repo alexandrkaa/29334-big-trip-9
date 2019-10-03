@@ -16,7 +16,7 @@ export class Point extends AbstractComponent {
   }
 
   getTemplate() {
-    const dateDiff = moment.utc(this._duration * 1000);
+    const dateDiff = moment.duration(this._duration * 1000);
     return `
     <!-- <li class="trip-events__item"> -->
       <div class="event">
@@ -31,7 +31,7 @@ export class Point extends AbstractComponent {
             &mdash;
             <time class="event__end-time" datetime="${moment.unix((this._startTime + this._duration)).format()}">${moment.unix(this._startTime + this._duration).format(`HH:mm`)}</time>
           </p>
-          <p class="event__duration">${dateDiff.format(`HH`)}H ${dateDiff.format(`mm`)}M</p>
+          <p class="event__duration">${(dateDiff.days() > 0 ? `${dateDiff.days()}D` : ``)} ${(dateDiff.hours() > 0 ? `${dateDiff.hours()}H` : ``)} ${dateDiff.minutes()}M</p>
         </div>
 
         <p class="event__price">
