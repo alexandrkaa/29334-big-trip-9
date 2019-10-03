@@ -1,43 +1,43 @@
 export const pointActions = new Set([
   {
     id: `taxi`,
-    type: `city`,
+    type: `transport`,
     txt: `Taxi to`,
     icon: `taxi.png`
   },
   {
     id: `bus`,
-    type: `city`,
+    type: `transport`,
     txt: `Bus to`,
     icon: `bus.png`
   },
   {
     id: `train`,
-    type: `city`,
+    type: `transport`,
     txt: `Train to`,
     icon: `train.png`
   },
   {
     id: `ship`,
-    type: `city`,
+    type: `transport`,
     txt: `Ship to`,
     icon: `ship.png`
   },
   {
     id: `transport`,
-    type: `city`,
+    type: `transport`,
     txt: `Transport to`,
     icon: `transport.png`
   },
   {
     id: `drive`,
-    type: `city`,
+    type: `transport`,
     txt: `Drive to`,
     icon: `drive.png`
   },
   {
     id: `flight`,
-    type: `city`,
+    type: `transport`,
     txt: `Flight to`,
     icon: `flight.png`
   },
@@ -49,13 +49,13 @@ export const pointActions = new Set([
   },
   {
     id: `sightseeing`,
-    type: `city`,
+    type: `sightseeing`,
     txt: `Sightseeing at`,
     icon: `sightseeing.png`
   },
   {
     id: `restaurant`,
-    type: `city`,
+    type: `restaurant`,
     txt: `Eat at`,
     icon: `restaurant.png`
   }

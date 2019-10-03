@@ -1,9 +1,10 @@
 export const pointPlaces = [
-  {name: `Amsterdam`, type: `city`},
-  {name: `Geneva`, type: `city`},
-  {name: `Chamonix`, type: `city`},
-  {name: `Saint Petersburg`, type: `city`},
-  {name: `airport`, type: `airport`},
+  {name: `Amsterdam`, type: `transport`},
+  {name: `Geneva`, type: `transport`},
+  {name: `Chamonix`, type: `transport`},
+  {name: `Saint Petersburg`, type: `transport`},
+  {name: `airport`, type: `transport`},
   {name: `hotel`, type: `hotel`},
-  {name: `Natural History Museum`, type: `museum`},
+  {name: `Natural History Museum`, type: `sightseeing`},
+  {name: `Restaurant`, type: `restaurant`},
 ];
